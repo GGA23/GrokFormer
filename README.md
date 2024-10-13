@@ -19,7 +19,7 @@ The graph classification data folder contains five benchmark datasets from [HiGC
     $ python train.py --dataset Physics
 # Examples
  Training a model on the default dataset.  
-![image](https://github.com/GGA23/UGCN-SN/blob/main/example.gif)
+![image](https://github.com/GGA23/GFKANormer/blob/main/GFKAN_demo.gif)
 # Baselines links
 * [H2GCN](https://github.com/GitEventhandler/H2GCN-PyTorch)
 * [HopGNN](https://github.com/JC-202/HopGNN)
