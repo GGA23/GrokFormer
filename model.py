@@ -113,9 +113,6 @@ class GFKANormer(nn.Module):
             nn.Linear(hidden_dim, nclass),
         )
 
-        # for arxiv & penn
-        self.linear_encoder = nn.Linear(nfeat, hidden_dim)
-        # self.classify = nn.Linear(hidden_dim, nclass)
 
         self.eig_encoder = SineEncoding(k, dim)
 
@@ -124,6 +121,7 @@ class GFKANormer(nn.Module):
         self.prop_dropout = nn.Dropout(prop_dropout)
 
         self.k = k
+        self.alpha = nn.Linear(self.k, 1)
 
         self.feat_dp1 = nn.Dropout(feat_dropout)
         self.feat_dp2 = nn.Dropout(feat_dropout)
@@ -173,9 +171,13 @@ class GFKANormer(nn.Module):
 
             for i in range(self.k):
                 basic_feats.append(u @ (new_e[i] * utx))  # [N, d]
-            basic_feats = torch.stack(basic_feats, axis=1)  # [N, m, d]
+                
+            basic_feats = torch.stack(basic_feats, axis=1)  # [N, k, d]
             basic_feats = self.prop_dropout(basic_feats)
-            h_encoder = torch.sum(basic_feats, dim=1)
+            basic_feats = basic_feats.permute(0, 2, 1)
+            basic_feats = self.alpha(basic_feats)
+            h_encoder = basic_feats.squeeze(2)
+        
             h = self.transformer_encoder(h, h_encoder)
 
         if self.norm == 'none':
