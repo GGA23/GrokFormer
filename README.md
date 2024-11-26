@@ -1,5 +1,5 @@
-# GFKANormer
-A PyTorch implementation of GFKANormer "Graph Fourier Kolmogorov-Arnold Network with Adaptive Filter beyond Self-Attention". <br>
+# GrokFormer
+A PyTorch implementation of GrokFormer "GrokFormer: Graph Fourier Kolmogorov-Arnold Transformer". <br>
 code is coming soon
 # Environment Settings
 This implementation is based on Python3. To run the code, you need the following dependencies: <br>
@@ -12,7 +12,7 @@ This implementation is based on Python3. To run the code, you need the following
 * scikit-learn==0.24.2
 * CUDA Version: 11.0
 # Node Classification Datasets
-The data folder contains five homophilic benchmark datasets(Cora, Citeseer, Pubmed, Photo, Physics), and four heterophilic datasets(Chameleon, Squirrel, Actor, Texas) from [BernNet](https://github.com/ivam-he/BernNet). We use the same experimental setting (60\%/20\%/20\% random splits for train/validation/test with the same random seeds, epochs, run ten times, early stopping) as [BernNet](https://github.com/ivam-he/BernNet).  
+The data folder contains five homophilic benchmark datasets(Cora, Citeseer, Pubmed, Photo, Physics), and five heterophilic datasets(Penn94, Chameleon, Squirrel, Actor, Texas) from [BernNet](https://github.com/ivam-he/BernNet). We use the same experimental setting (60\%/20\%/20\% random splits for train/validation/test with the same random seeds, epochs, run ten times, early stopping) as [BernNet](https://github.com/ivam-he/BernNet).  
 # Graph Classification Datasets
 The graph classification data folder contains five benchmark datasets from [HiGCN](https://github.com/Yiminghh/HiGCN).
 # Run node classification experiment:
