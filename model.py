@@ -79,15 +79,6 @@ class MultiHeadAttention(nn.Module):
         x = self.att_dropout(x)
         x = torch.matmul(q, x)
 
-        #q = q * self.scale
-        #x = torch.matmul(q, k)  # (64,64)
-        # print("3",x.shape)
-        
-
-        #x = torch.softmax(x, dim=1)
-        
-        #x = x.matmul(v)
-        # x = x.transpose(0, 1)
         x = self.output_layer(x)
 
         assert x.size() == orig_q_size
@@ -121,7 +112,7 @@ class GFKANormer(nn.Module):
         self.prop_dropout = nn.Dropout(prop_dropout)
 
         self.k = k
-        self.alpha = nn.Linear(self.k, 1)
+        self.alpha = nn.Linear(self.k, 1, bias=False)
 
         self.feat_dp1 = nn.Dropout(feat_dropout)
         self.feat_dp2 = nn.Dropout(feat_dropout)
@@ -161,23 +152,14 @@ class GFKANormer(nn.Module):
             h = self.linear_encoder(h)
 
         # eig = [torch.pow(e,i)]
-        eig = self.eig_encoder(e)  # [N, d]
-        new_e = eig
+        eig = self.eig_encoder(e)  
+        new_e = torch.cat(eig, dim=1)
+        new_e = self.alpha(new_e)
 
         for conv in range(self.nlayer):
-
-            basic_feats = []
             utx = ut @ h
-
-            for i in range(self.k):
-                basic_feats.append(u @ (new_e[i] * utx))  # [N, d]
-                
-            basic_feats = torch.stack(basic_feats, axis=1)  # [N, k, d]
-            basic_feats = self.prop_dropout(basic_feats)
-            basic_feats = basic_feats.permute(0, 2, 1)
-            basic_feats = self.alpha(basic_feats)
-            h_encoder = basic_feats.squeeze(2)
-        
+            h_encoder = u @ (new_e * utx)
+            h_encoder = self.prop_dropout(h_encoder)       
             h = self.transformer_encoder(h, h_encoder)
 
         if self.norm == 'none':
