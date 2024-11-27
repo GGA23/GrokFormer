@@ -10,7 +10,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torchmetrics
 from sklearn.metrics import roc_auc_score, mean_absolute_error, accuracy_score, r2_score
-from model import GFKANormer
+from model import GrokFormer
 from utils import count_parameters, init_params, seed_everything, get_split
 from tqdm import tqdm
 
@@ -56,7 +56,7 @@ def main_worker(args, config):
         train, valid, test = train.to(device), valid.to(device), test.to(device)
 
     nfeat = x.size(1)
-    net = GFKANormer(nclass, nfeat, nlayer, hidden_dim,dim, num_heads, k, tran_dropout, feat_dropout, prop_dropout,
+    net = GrokFormer(nclass, nfeat, nlayer, hidden_dim,dim, num_heads, k, tran_dropout, feat_dropout, prop_dropout,
                      norm).to(device)
     net.apply(init_params)
     optimizer = torch.optim.Adam(net.parameters(), lr=args.lr, weight_decay=args.weight_decay)
@@ -84,8 +84,7 @@ def main_worker(args, config):
             loss = torch.square((logits[mask] - y[mask])).sum()
         else:
             loss = F.cross_entropy(logits[train], y[train])
-            #loss = F.cross_entropy(logits[train], y[train])
-
+        
         loss.backward()
         optimizer.step()
 
@@ -114,7 +113,7 @@ def main_worker(args, config):
                 best_val_acc = val_acc
                 best_test_acc = test_acc
                 counter = 0
-                #trained_params = net.state_dict()
+                
             else:
                 counter += 1
 
@@ -124,7 +123,7 @@ def main_worker(args, config):
             print(max_acc1, max_acc2)
             break
 
-        #print(best_val_acc,best_test_acc)
+        
     return max_acc1,max_acc2, time_run
 
 
@@ -166,8 +165,6 @@ if __name__ == '__main__':
         args.seed = SEEDS[RP]
         set_seed(args.seed)
         best_val_acc, best_test_acc, time_run = main_worker(args, config)
-        #print(params_weight)
-        #print(params_bias)
         results.append(best_test_acc)
         time_results.append(time_run)
 
