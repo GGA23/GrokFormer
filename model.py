@@ -85,11 +85,11 @@ class MultiHeadAttention(nn.Module):
         return x
 
 
-class GFKANormer(nn.Module):
+class GrokFormer(nn.Module):
 
     def __init__(self, nclass, nfeat, nlayer=1, hidden_dim=128, dim=32, nheads=1, k=10,
                  tran_dropout=0.0, feat_dropout=0.0, prop_dropout=0.0, norm='none'):
-        super(GFKANormer, self).__init__()
+        super(GrokFormer, self).__init__()
 
         self.norm = norm
         self.nfeat = nfeat
@@ -151,7 +151,7 @@ class GFKANormer(nn.Module):
             h = self.feat_dp1(x)
             h = self.linear_encoder(h)
 
-        # eig = [torch.pow(e,i)]
+        
         eig = self.eig_encoder(e)  
         new_e = torch.cat(eig, dim=1)
         new_e = self.alpha(new_e)
@@ -168,12 +168,5 @@ class GFKANormer(nn.Module):
             h = self.feat_dp2(h)
             h = self.classify(h)
             return h
-
-    def get_eig_ws_parameters(self):
-        eig_ws_parameters = []
-        for i in range(self.k):
-            eig_ws_parameters.append(self.eig_encoder.eig_ws[i].weight.data.cpu().numpy())
-            eig_ws_parameters.append(self.eig_encoder.eig_ws[i].bias.data.cpu().numpy())
-        return eig_ws_parameters
 
 
