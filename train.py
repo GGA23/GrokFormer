@@ -35,25 +35,19 @@ def main_worker(args, config):
     #num_node = config['num_node']
     k = config['k']
 
-    if 'signal' in args.dataset:
-        e, u, x, y, m = torch.load('data/{}.pt'.format(args.dataset))
-        e, u, x, y, m = e.to(device), u.to(device), x.to(device), y.to(device), m.to(device)
-        mask = torch.where(m == 1)
-        x = x[:, args.image].unsqueeze(1)
-        y = y[:, args.image]
-    else:
-        e, u, x, y = torch.load('data/{}.pt'.format(args.dataset))
-        e, u, x, y = e.to(device), u.to(device), x.to(device), y.to(device)
+    
+    e, u, x, y = torch.load('data/{}.pt'.format(args.dataset))
+    e, u, x, y = e.to(device), u.to(device), x.to(device), y.to(device)
 
-        if len(y.size()) > 1:
-            if y.size(1) > 1:
-                y = torch.argmax(y, dim=1)
-            else:
-                y = y.view(-1)
+    if len(y.size()) > 1:
+        if y.size(1) > 1:
+            y = torch.argmax(y, dim=1)
+        else:
+            y = y.view(-1)
 
-        train, valid, test = get_split(args.dataset, y, nclass, args.seed) 
-        train, valid, test = map(torch.LongTensor, (train, valid, test))
-        train, valid, test = train.to(device), valid.to(device), test.to(device)
+    train, valid, test = get_split(args.dataset, y, nclass, args.seed) 
+    train, valid, test = map(torch.LongTensor, (train, valid, test))
+    train, valid, test = train.to(device), valid.to(device), test.to(device)
 
     nfeat = x.size(1)
     net = GrokFormer(nclass, nfeat, nlayer, hidden_dim,dim, num_heads, k, tran_dropout, feat_dropout, prop_dropout,
@@ -76,15 +70,8 @@ def main_worker(args, config):
         t_st=time.time()
         net.train()
         optimizer.zero_grad()
-        #logits, loss_lam = net(e, u, x)
         logits = net(e, u, x)
-
-        if 'signal' in args.dataset:
-            logits = logits.view(y.size())
-            loss = torch.square((logits[mask] - y[mask])).sum()
-        else:
-            loss = F.cross_entropy(logits[train], y[train])
-        
+        loss = F.cross_entropy(logits[train], y[train])
         loss.backward()
         optimizer.step()
 
@@ -94,28 +81,20 @@ def main_worker(args, config):
         net.eval()
         logits = net(e, u, x)
 
-        if 'signal' in args.dataset:
-            logits = logits.view(y.size())
-            r2 = r2_score(y[mask].data.cpu().numpy(), logits[mask].data.cpu().numpy())
-            sse = torch.square(logits[mask] - y[mask]).sum().item()
-            print(r2, sse)
-        else:
-            evaluation = torchmetrics.Accuracy(task='multiclass', num_classes=nclass)
-            val_loss = F.cross_entropy(logits[valid], y[valid]).item()
-
-            val_acc = evaluation(logits[valid].cpu(), y[valid].cpu()).item()
-            test_acc = evaluation(logits[test].cpu(), y[test].cpu()).item()
-            res.append([val_loss, val_acc, test_acc])
-
-
-            if val_loss < min_loss:
-                min_loss = val_loss
-                best_val_acc = val_acc
-                best_test_acc = test_acc
-                counter = 0
+        evaluation = torchmetrics.Accuracy(task='multiclass', num_classes=nclass)
+        val_loss = F.cross_entropy(logits[valid], y[valid]).item()
+        val_acc = evaluation(logits[valid].cpu(), y[valid].cpu()).item()
+        test_acc = evaluation(logits[test].cpu(), y[test].cpu()).item()
+        res.append([val_loss, val_acc, test_acc])
+        
+        if val_loss < min_loss:
+            min_loss = val_loss
+            best_val_acc = val_acc
+            best_test_acc = test_acc
+            counter = 0
                 
-            else:
-                counter += 1
+        else:
+            counter += 1
 
         if counter == 200:
             max_acc1 = sorted(res, key=lambda x: x[0], reverse=False)[0][-1]
@@ -154,10 +133,7 @@ if __name__ == '__main__':
         torch.manual_seed(seed)
         torch.cuda.manual_seed(seed)
     
-    if 'signal' in args.dataset:
-        config = yaml.load(open('config.yaml'), Loader=yaml.SafeLoader)['signal']
-    else:
-        config = yaml.load(open('config.yaml'), Loader=yaml.SafeLoader)[args.dataset]
+    config = yaml.load(open('config.yaml'), Loader=yaml.SafeLoader)[args.dataset]
     results=[]
     time_results=[]
     SEEDS = np.arange(1, 11)
