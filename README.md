@@ -36,7 +36,7 @@ The graph classification data folder contains five benchmark datasets from [HiGC
 # Acknowledgements
 The code is implemented based on [Specformer: Spectral Graph Neural Networks Meet Transformers](https://github.com/DSL-Lab/Specformer).
 # Cite
-If you use this project in your research, please cite the following paper:
+If you compare with, build on, or use aspects of this work, please cite the following:
 
 ```bibtex
 @article{ai2024grokformer,
