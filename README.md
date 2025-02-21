@@ -10,7 +10,6 @@ This implementation is based on Python3. To run the code, you need the following
 * tqdm==4.59.0
 * seaborn==0.11.2
 * scikit-learn==0.24.2
-* CUDA Version: 11.0
 # Node Classification Datasets
 The data folder contains five homophilic benchmark datasets(Cora, Citeseer, Pubmed, Photo, Physics), and five heterophilic datasets(Penn94, Chameleon, Squirrel, Actor, Texas) from [BernNet](https://github.com/ivam-he/BernNet). We use the same experimental setting (60\%/20\%/20\% random splits for train/validation/test with the same random seeds, epochs, run ten times, early stopping) as [BernNet](https://github.com/ivam-he/BernNet).  
 # Graph Classification Datasets
