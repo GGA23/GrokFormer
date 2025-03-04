@@ -34,13 +34,3 @@ The graph classification data folder contains five benchmark datasets from [HiGC
 * The implementations of others are taken from the Pytorch Geometric library
 # Acknowledgements
 The code is implemented based on [Specformer: Spectral Graph Neural Networks Meet Transformers](https://github.com/DSL-Lab/Specformer).
-# Cite
-If you compare with, build on, or use aspects of this work, please cite the following:
-
-```bibtex
-@article{ai2024grokformer,
-  title={GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers},
-  author={Ai, Guoguo and Pang, Guansong and Qiao, Hezhe and Gao, Yuan and Yan, Hui},
-  journal={arXiv preprint arXiv:2411.17296},
-  year={2024}
-}
