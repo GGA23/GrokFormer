@@ -12,7 +12,7 @@ import torchmetrics
 
 
 
-def train(dataset, gpu, adj, E, U, feat, labels,epoch, batch,seed):
+def main_run(dataset, gpu, adj, E, U, feat, labels,epoch, batch,seed):
     device = 'cuda:{}'.format(gpu)
     torch.cuda.set_device(gpu)
     nb_epochs = epoch
@@ -144,5 +144,5 @@ if __name__ == '__main__':
     torch.backends.cudnn.deterministic = True
     torch.backends.cudnn.benchmark = False
     np.random.seed(seed)
-    train(args.dataset,args.device,adj, E,U,feat,labels, epoch, batch, seed)
+    main_run(args.dataset,args.device,adj, E,U,feat,labels, epoch, batch, seed)
     print('################################################')
