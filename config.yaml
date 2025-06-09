@@ -64,9 +64,9 @@ chameleon:
     epoch: 2000
     lr: 0.01
     weight_decay: 0.00005
-    tran_dropout: 0.6 #or 0.6/0.7
-    feat_dropout: 0.4 #or 0.5
-    prop_dropout: 0.3 #or 0.2
+    tran_dropout: 0.6 #0.4/0.7
+    feat_dropout: 0.4 #0.5
+    prop_dropout: 0.3 #0.2
     norm: 'none'
 squirrel:
     nclass: 5
