@@ -22,17 +22,16 @@ def main_worker(args):
 
     
     e, u, x, y = torch.load('../data/{}.pt'.format(args.dataset))
-    nclass = y.max().item() + 1
-    e, u, x, y = e.to(device), u.to(device), x.to(device), y.to(device)
     
-
     if len(y.size()) > 1:
         if y.size(1) > 1:
+            nclass =  y.size(1)    
             y = torch.argmax(y, dim=1)
         else:
             y = y.view(-1)
+            nclass = y.max().item() + 1
             
-    
+    e, u, x, y = e.to(device), u.to(device), x.to(device), y.to(device)
 
     train, valid, test = get_split(args.dataset, y, nclass, args.seed) 
     train, valid, test = map(torch.LongTensor, (train, valid, test))
