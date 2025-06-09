@@ -1,0 +1,154 @@
+cora:
+    nclass: 7
+    nlayer: 1
+    k: 2
+    num_heads: 2
+    dim: 16
+    hidden_dim: 128
+    epoch: 2000
+    lr: 0.01
+    weight_decay: 0.0005
+    tran_dropout: 0.7
+    feat_dropout: 0.5
+    prop_dropout: 0.6
+    norm: 'none'
+citeseer:
+    nclass: 6
+    nlayer: 1
+    k: 3
+    num_heads: 1
+    dim: 16
+    hidden_dim: 128
+    epoch: 2000
+    lr: 0.01
+    weight_decay: 0.0005
+    tran_dropout: 0.5
+    feat_dropout: 0.5
+    prop_dropout: 0.3
+    norm: 'none'
+pubmed:
+    nclass: 3
+    nlayer: 1
+    k: 3
+    num_heads: 1
+    dim: 32
+    hidden_dim: 128
+    epoch: 2000
+    lr: 0.01
+    weight_decay: 0.0005
+    tran_dropout: 0.4
+    feat_dropout: 0.3
+    prop_dropout: 0.0
+    norm: 'none'
+photo:
+    nclass: 8
+    nlayer: 1
+    k: 2
+    num_heads: 2
+    dim: 16
+    hidden_dim: 128
+    epoch: 2000
+    lr: 0.01
+    weight_decay: 0.0005
+    tran_dropout: 0.4
+    feat_dropout: 0.4
+    prop_dropout: 0.4
+    norm: 'none'
+chameleon:
+    nclass: 5
+    nlayer: 2 
+    k: 5 
+    num_heads: 3
+    dim: 32
+    hidden_dim: 128
+    epoch: 2000
+    lr: 0.01
+    weight_decay: 0.00005
+    tran_dropout: 0.6 #or 0.6/0.7
+    feat_dropout: 0.4 #or 0.5
+    prop_dropout: 0.3 #or 0.2
+    norm: 'none'
+squirrel:
+    nclass: 5
+    nlayer: 1 
+    k: 6 
+    num_heads: 1 
+    dim: 32
+    hidden_dim: 128
+    epoch: 2000
+    lr: 0.01
+    weight_decay: 0.00005
+    tran_dropout: 0.7
+    feat_dropout: 0.5
+    prop_dropout: 0.0
+    norm: 'none'
+actor:
+    nclass: 5
+    nlayer: 2
+    k: 2
+    num_heads: 2
+    dim: 32
+    hidden_dim: 128
+    epoch: 2000
+    lr: 0.01
+    weight_decay: 0.00005
+    tran_dropout: 0.0
+    feat_dropout: 0.3
+    prop_dropout: 0.5
+    norm: 'none'
+physics:
+    nclass: 5
+    nlayer: 1
+    k: 2
+    num_heads: 1
+    dim: 16
+    hidden_dim: 128
+    epoch: 2000
+    lr: 0.01
+    weight_decay: 0.005
+    tran_dropout: 0.3
+    feat_dropout: 0.3
+    prop_dropout: 0.7
+    norm: 'none'
+texas:
+    nclass: 5
+    nlayer: 1
+    k: 1
+    num_heads: 3 #2
+    dim: 16 
+    hidden_dim: 128
+    epoch: 2000
+    lr: 0.01
+    weight_decay: 0.0005
+    tran_dropout: 0.6 #0.5
+    feat_dropout: 0.6 #0.8
+    prop_dropout: 0.8
+    norm: 'none'
+penn:
+    nclass: 2
+    nlayer: 1
+    k: 10
+    num_heads: 1
+    dim: 16
+    hidden_dim: 128
+    epoch: 2000
+    lr: 0.01
+    weight_decay: 0.00005
+    tran_dropout: 0.5
+    feat_dropout: 0.2
+    prop_dropout: 0.0
+    norm: 'none'
+wikics:
+    nclass: 10
+    nlayer: 1
+    k: 2
+    num_heads: 1
+    dim: 16
+    hidden_dim: 128
+    epoch: 2000
+    lr: 0.005
+    weight_decay: 0.0005
+    tran_dropout: 0.6
+    feat_dropout: 0.4
+    prop_dropout: 0.1
+    norm: 'none'
