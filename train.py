@@ -14,44 +14,33 @@ from model import GrokFormer
 from utils import count_parameters, init_params, seed_everything, get_split
 from tqdm import tqdm
 
-def main_worker(args, config):
+def main_worker(args):
     #print(args)
     seed_everything(args.seed)
     device = 'cuda:{}'.format(args.cuda)
     torch.cuda.set_device(args.cuda)
 
-    epoch = config['epoch']
-    lr = config['lr']
-    weight_decay = config['weight_decay']
-    nclass = config['nclass']
-    nlayer = config['nlayer']
-    hidden_dim = config['hidden_dim']
-    num_heads = config['num_heads']
-    tran_dropout = config['tran_dropout']
-    feat_dropout = config['feat_dropout']
-    prop_dropout = config['prop_dropout']
-    norm = config['norm']
-    dim = config['dim']
-    #num_node = config['num_node']
-    k = config['k']
-
     
-    e, u, x, y = torch.load('data/{}.pt'.format(args.dataset))
+    e, u, x, y = torch.load('../data/{}.pt'.format(args.dataset))
+    nclass = y.max().item() + 1
     e, u, x, y = e.to(device), u.to(device), x.to(device), y.to(device)
+    
 
     if len(y.size()) > 1:
         if y.size(1) > 1:
             y = torch.argmax(y, dim=1)
         else:
             y = y.view(-1)
+            
+    
 
     train, valid, test = get_split(args.dataset, y, nclass, args.seed) 
     train, valid, test = map(torch.LongTensor, (train, valid, test))
     train, valid, test = train.to(device), valid.to(device), test.to(device)
 
     nfeat = x.size(1)
-    net = GrokFormer(nclass, nfeat, nlayer, hidden_dim,dim, num_heads, k, tran_dropout, feat_dropout, prop_dropout,
-                     norm).to(device)
+     
+    net = GrokFormer(nclass, nfeat, args.nlayer, args.hidden_dim, args.dim, args.nheads, args.k, args.tran_dropout, args.feat_dropout, args.prop_dropout,args.norm).to(device)
     net.apply(init_params)
     optimizer = torch.optim.Adam(net.parameters(), lr=args.lr, weight_decay=args.weight_decay)
     print(count_parameters(net))
@@ -66,7 +55,7 @@ def main_worker(args, config):
     best_test_acc = 0
     
     time_run=[]
-    for idx in range(epoch):
+    for idx in range(args.epoch):
         t_st=time.time()
         net.train()
         optimizer.zero_grad()
@@ -109,12 +98,12 @@ def main_worker(args, config):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--seed', type=int, default=42)
-    parser.add_argument('--cuda', type=int, default=0)
+    parser.add_argument('--cuda', type=int, default=3)
     parser.add_argument('--runs', type=int, default=10) #5 for penn
     parser.add_argument('--dataset', default='physics')
-    #parser.add_argument('--image', type=int, default=0)
+    parser.add_argument('--epoch', type=int, default=2000)
     parser.add_argument('--k', type=int, default=2)
-    parser.add_argument('--num_heads', type=int, default=1)
+    parser.add_argument('--nheads', type=int, default=1)
     parser.add_argument('--dim', type=int, default=16)
     parser.add_argument('--hidden_dim', type=int, default=128)
     parser.add_argument('--nlayer', type=int, default=1)
@@ -123,6 +112,7 @@ if __name__ == '__main__':
     parser.add_argument('--prop_dropout', type=float, default=0.7, help='dropout for neural networks.')
     parser.add_argument('--lr', type=float, default=0.01, help='learning rate.')
     parser.add_argument('--weight_decay', type=float, default=5e-3, help='weight decay.')
+    parser.add_argument('--norm', default='none')
 
     args = parser.parse_args()
 
@@ -133,14 +123,14 @@ if __name__ == '__main__':
         torch.manual_seed(seed)
         torch.cuda.manual_seed(seed)
     
-    config = yaml.load(open('config.yaml'), Loader=yaml.SafeLoader)[args.dataset]
+ 
     results=[]
     time_results=[]
     SEEDS = np.arange(1, 11)
     for RP in tqdm(range(args.runs)):
         args.seed = SEEDS[RP]
         set_seed(args.seed)
-        best_val_acc, best_test_acc, time_run = main_worker(args, config)
+        best_val_acc, best_test_acc, time_run = main_worker(args)
         results.append(best_test_acc)
         time_results.append(time_run)
 
