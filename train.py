@@ -24,12 +24,14 @@ def main_worker(args):
     e, u, x, y = torch.load('../data/{}.pt'.format(args.dataset))
     
     if len(y.size()) > 1:
-        if y.size(1) > 1:
-            nclass =  y.size(1)    
+        if y.size(1) > 1:   
             y = torch.argmax(y, dim=1)
         else:
             y = y.view(-1)
-            nclass = y.max().item() + 1
+           
+    else:
+        y = y.view(-1)
+    nclass = int(y.max().item()) + 1
             
     e, u, x, y = e.to(device), u.to(device), x.to(device), y.to(device)
 
@@ -42,7 +44,6 @@ def main_worker(args):
     net = GrokFormer(nclass, nfeat, args.nlayer, args.hidden_dim, args.dim, args.nheads, args.k, args.tran_dropout, args.feat_dropout, args.prop_dropout,args.norm).to(device)
     net.apply(init_params)
     optimizer = torch.optim.Adam(net.parameters(), lr=args.lr, weight_decay=args.weight_decay)
-    print(count_parameters(net))
 
     res = []
     min_loss = 100.0
