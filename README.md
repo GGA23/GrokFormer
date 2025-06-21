@@ -11,10 +11,8 @@ This implementation is based on Python3. To run the code, you need the following
 * scikit-learn==0.24.2
 # Node Classification Datasets
 The data folder contains five homophilic benchmark datasets(Cora, Citeseer, Pubmed, Photo, Physics), and five heterophilic datasets(Penn94, Chameleon, Squirrel, Actor, Texas) from [BernNet](https://github.com/ivam-he/BernNet). We use the same experimental setting (60\%/20\%/20\% random splits for train/validation/test with the same epochs, run ten times, early stopping) as [BernNet](https://github.com/ivam-he/BernNet).  
-# Graph Classification Datasets
-The graph classification data folder contains five benchmark datasets from [HiGCN](https://github.com/Yiminghh/HiGCN).
 # Run node classification experiment:
-    $ python train.py --dataset Physics
+    $ sh run.sh
 # Examples
  Training a model on the default dataset.  
 ![image](https://github.com/GGA23/GrokFormer/blob/main/GrokFormer_demo.gif)
