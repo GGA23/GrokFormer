@@ -10,7 +10,7 @@ This implementation is based on Python3. To run the code, you need the following
 * seaborn==0.11.2
 * scikit-learn==0.24.2
 # Node Classification Datasets
-The data folder contains six homophilic benchmark datasets(Cora, Citeseer, Pubmed, Photo, Physics, WikiCS), and five heterophilic datasets(Penn94, Chameleon, Squirrel, Actor, Texas). We use the same experimental setting (60\%/20\%/20\% random splits for train/validation/test (fixed splits for Penn94) with the same epochs, run ten times (five times for Penn94), early stopping) as [Specformer](https://github.com/DSL-Lab/Specformer).  
+The dataset contains six homophilic benchmark datasets(Cora, Citeseer, Pubmed, Photo, Physics, WikiCS), and five heterophilic datasets(Penn94, Chameleon, Squirrel, Actor, Texas). We use the same experimental setting (60\%/20\%/20\% random splits for train/validation/test (fixed splits for Penn94) with the same epochs, run ten times (five times for Penn94), early stopping) as [Specformer](https://github.com/DSL-Lab/Specformer).  
 # Run node classification experiment:
     $ sh run.sh
 # Examples
