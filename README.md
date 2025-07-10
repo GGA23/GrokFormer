@@ -29,6 +29,18 @@ The data folder contains five homophilic benchmark datasets(Cora, Citeseer, Pubm
 * [PolyFormer](https://github.com/air029/PolyFormer)
 * [Specformer](https://github.com/DSL-Lab/Specformer)
 * The implementations of others are taken from the Pytorch Geometric library
+## 📖 Citation
+
+If you find this work useful, please cite our paper:
+
+```bibtex
+@inproceedings{ai2024grokformer,
+  title     = {GrokFormer: Graph Fourier Kolmogorov-Arnold Transformers},
+  author    = {Ai, Guoguo and Pang, Guansong and Qiao, Hezhe and Gao, Yuan and Yan, Hui},
+  booktitle = {Proceedings of the 42st International Conference on Machine Learning (ICML)},
+  year      = {2025}
+}
+Feel free to contact guoguo@njust.edu.cn if you have any questions.
 # Acknowledgements
 The node-level code and filter learning code are implemented based on [Specformer: Spectral Graph Neural Networks Meet Transformers](https://github.com/DSL-Lab/Specformer).
 The graph-level (TUD Benchmarks) code are implemented based on the public code (https://github.com/kavehhassani/mvgrl/tree/master/graph)
