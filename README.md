@@ -40,7 +40,9 @@ If you find this work useful, please cite our paper:
   booktitle = {Proceedings of the 42st International Conference on Machine Learning (ICML)},
   year      = {2025}
 }
+
 Feel free to contact guoguo@njust.edu.cn if you have any questions.
+
 # Acknowledgements
 The node-level code and filter learning code are implemented based on [Specformer: Spectral Graph Neural Networks Meet Transformers](https://github.com/DSL-Lab/Specformer).
 The graph-level (TUD Benchmarks) code are implemented based on the public code (https://github.com/kavehhassani/mvgrl/tree/master/graph)
